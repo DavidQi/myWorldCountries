@@ -1,0 +1,45 @@
+version: "3.9"
+services:
+  postgres-db:
+    container_name: postgres
+    image: postgres
+    network_mode: bridge
+    restart: unless-stopped
+    env_file:
+      - .env.postgres
+    ports:
+    - "54320:5432"
+  pgadmin4:
+    container_name: pgadmin4
+    image: dpage/pgadmin4
+    network_mode: bridge
+    links:
+      - postgres-db
+    env_file:
+      - .env.pgadmin
+    ports:
+    - "5050:80"
+  jupyter-notebook:
+    container_name: notebook
+    image: jupyter/scipy-notebook
+    ports:
+    - "8888:8888"
+    environment:
+      JUPYTER_ENABLE_LAB: "yes"
+      JUPYTER_TOKEN: "jupyter"
+    volumes:
+      - ./code:/home/jovyan/work
+  python-code:
+    container_name: pythoncode
+    network_mode: bridge
+    build: ./code
+    links:
+      - postgres-db
+    depends_on:
+      - postgres-db
+    ports:
+    - "5000:5000"
+    volumes:
+      - ./code:/pycode/code
+    entrypoint: ["python3", "country_api.py"]
+

@@ -1,0 +1,7 @@
+flask
+flask-caching
+python-dotenv
+pandas
+psycopg2-binary
+requests
+sqlalchemy
