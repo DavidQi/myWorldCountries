@@ -2,12 +2,11 @@
 
 * Using Docker to pack Python scripts for further CI/CD
 * Using Docker compose to make the scripts working with Postgres DB and other tools
-* The scripts will pull and store data from the fs
-* Using Jupyter notebooks for analysis and visuaollowing APIs
+* The scripts will pull and store data from the following APIs
   * [The World Bank Country API](https://datahelpdesk.worldbank.org/knowledgebase/articles/898590-country-api-queries)
   * [Restcountries.com all countries API](https://restcountries.com/#api-endpoints-v3-all)
-* Creating views to verify that both data sourcelization
-
+* Creating views with joined dataset from both data source 
+* Using Jupyter notebooks for analysis and visualization
 
 ## File structure
 ![File structure](Screenshot%20from%202022-04-18%2017-05-30.png)
@@ -27,10 +26,9 @@ The docker will build docker images of hte python code and start services of the
 Using browser to visit http://localhost:5000/buildview, that will 
 * extract data from worldbank and restcountries
 * save raw data into DB tables (rest_country_raw & world_country_raw)
-* normalize and the data 
+* normalize and clean the data 
 * upload the data into DB tables (rest_country & world_country)
 * build DB view “country_info” with inner joined those 2 DB tables  (create_views.sql)
-* create a role “analyst”  (create_user.sql)
 * create a user “analyst_team” as an analyst role  
 
 ## Work with DB view 

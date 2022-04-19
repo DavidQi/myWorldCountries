@@ -2,7 +2,7 @@ import pandas as pd
 from sqlalchemy import create_engine
 from flask import Flask, jsonify, request
 from flask_caching import Cache
-from utils import get_conn_string, load_countries_to_table, create_country_view
+from utils import get_conn_string, load_countries_to_table, create_country_view, check_table_exist, create_user
 
 app = Flask(__name__)
 cache = Cache(app)
@@ -76,12 +76,17 @@ def timezones():
 def create_view():
     conn_string = get_conn_string()
     db_conn = create_engine(conn_string).connect()
+
+    if check_table_exist(db_conn, 'country_info', 'VIEW'):
+        return "DB View has already been built!"
+
     rest_url = 'https://restcountries.com/v3.1/all'
     wb_url = 'https://api.worldbank.org/v2/country?per_page=300&format=json'
 
     load_countries_to_table(db_conn, rest_url, 'rest_country')
     load_countries_to_table(db_conn, wb_url, 'world_country')
     create_country_view(db_conn)
+    create_user(db_conn, 'analyst_team', '12345')
     return "DB View has been built!"
 
 
