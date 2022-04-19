@@ -12,7 +12,7 @@
 ![File structure](Screenshot%20from%202022-04-18%2017-05-30.png)
 
 
-## Run Docker Compose
+## Clone to local and Run Docker Compose
 ```shell
 docker-compose up
 ```
